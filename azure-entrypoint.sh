@@ -18,6 +18,7 @@ fi
 : "${ACME_CA_URI:=https://acme-staging.api.letsencrypt.org/directory}"
 
 CUSTOM_SSH_KEY="${10}"
+BTCPAYGEN_ADDITIONAL_FRAGMENTS="opt-save-storage"
 
 # Setup SSH access via private key
 ssh-keygen -t rsa -f /root/.ssh/id_rsa_btcpay -q -P ""
@@ -42,4 +43,5 @@ git checkout $BTCPAY_DOCKER_REPO_BRANCH
 
 . ./btcpay-setup.sh -i
 
-nohup /etc/init.d/sshd restart &
+[ -x "$(command -v /etc/init.d/sshd)" ] && nohup /etc/init.d/sshd restart &
+[ -x "$(command -v /etc/init.d/ssh)" ] && nohup /etc/init.d/ssh restart &
